@@ -201,9 +201,12 @@ class MarathonClient(object):
     def get_app(self, app_id, embed_tasks=False, embed_counts=False,
                 embed_deployments=False, embed_readiness=False,
                 embed_last_task_failure=False, embed_failures=False,
-                embed_task_stats=False):
+                embed_task_stats=False,
+                clazz=MarathonApp):
+
         """Get a single app.
 
+        :param type clazz: class of Marathon application
         :param str app_id: application ID
         :param bool embed_tasks: embed tasks in result
         :param bool embed_counts: embed all task counts
@@ -232,7 +235,7 @@ class MarathonClient(object):
 
         response = self._do_request(
             'GET', '/v2/apps/{app_id}'.format(app_id=app_id), params=params)
-        return self._parse_response(response, MarathonApp, resource_name='app')
+        return self._parse_response(response, clazz, resource_name='app')
 
     def restart_app(self, app_id, force=False):
         """
